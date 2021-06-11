@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <style>
+        .content{
+            height: 75%;
+            color:red;
+        }
+        .messageDiv{
+            margin-top: 30px;
+            margin-bottom: 100px;
+        }
+
+        .custom-btn{
+            font-size: 10px;
+        }
+        .container{
+        color:blue;
+        }
+
+    </style>
+
+    <title>ToDoList</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="page-header">
+                <h1>To Do List App <small>오픈SW활용 과제</small></h1>
+            </div>
+        </div>
+
+
+        <div class="content">
+            <div>
+                <form method="POST">{% csrf_token %}
+                    <div class="input-group1">
+                    <input type="text" class="form-control" placeholder="무엇을 찾을까요?">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">찾기</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+            <div class="messageDiv">
+                <form action="./writeTodo/" method="POST">{% csrf_token %}
+                    <div class="input-group">
+                        <input id="todoContent" name="todoContent" type="text" class="form-control" placeholder="오늘의 할 일은?">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">작성</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+
+
+            <div class="toDoDiv">
+                <ul class="list-group">
+                    {% for todo in todos %}
+                    {% if todo.isDone == False %}
+                    <form action="./delTodo/" method="GET">
+                        <div class="input-group" name='todo1'>
+                            <li class="list-group-item">{{ todo.content }}</li>
+                            <input type="hidden" id="todoIndex" name="todoIndex" value="{{ todo.id }}"></input>
+                            <span class="input-group-addon">
+                                <button type="submit" class="custom-btn btn btn-danger">삭제</button>
+                                <button type="submit" class="custom-btn btn btn-danger">수정</button>
+                            </span>
+                        </div>
+                    </form>
+                    {% else %}
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>
